@@ -1,9 +1,10 @@
-FULL CLASS DOCUMENTATION HERE:
+FULL DOCUMENTATION HERE:
 http://www.ajaxcrud.com/api/
 
 Any questions or issues? -- support forum and reference material featured on the website www.ajaxcrud.com
 
-USING EXAMPLE SCRIPTS:
+
+USING THESE EXAMPLE SCRIPTS:
 
 1) To install this class you must first manually CREATE a database. This is done (locally) by going
    into your mySQL terminal window and using the SQL "CREATE DATABASE [database_name]".
@@ -20,9 +21,11 @@ USING EXAMPLE SCRIPTS:
 
 
 
+
+
 ~Loud Canvas Media Staff
 www.loudcanvas.com
 
 
-NB: Make sure you include any "header" info (e.g. any HTML, echo statements, etc) AFTER you 
+NB: Make sure you include any "header" info (e.g. any HTML, echo statement,s etc) AFTER you 
 include the ajaxCRUD class. 
