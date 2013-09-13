@@ -3,55 +3,57 @@
 	require_once('preheader.php'); // <-- this include file MUST go first before any HTML/output
 
 
-?>
-<!DOCTYPE html PUBLIC"-//W3C//DTD XHTML 1.0 Strict//EN"
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html>
-	<head>
-	
-	
-	    <style type="text/css">
-	        body {font-size:  20px;}
-	        fieldset {width: 29%; float:left; margin-right: 15px;}
-	        /*label {display:block; float:left; width: 200px;}*/
-	        label + input[type=checkbox] {width: auto;}
-	         input[type=text] {display:block; }
-	         select {display:block; }
-	         input + label {/*margin-top: 20px;*/}
-	         legend {margin-top: 30px; font-weight: bold;}
-	         /*fieldset label {display:block; float:left; width: 50px; margin-top: 15px;}*/
-	         fieldset input + label {margin-right: 15px; padding: 5px;}
-	         fieldset {margin-top:  20px;}
-	         .collection {margin-left: 20px;}
-	         .patternCompanies {list-style: none; padding: 0; margin: 0;}
-	        input[type="checkbox"] + label {margin-top: -25px;}
-	         input[type="radio"] {display: block;
-                 margin-left: 0;
-                 margin-top: 20px;}
-	         label {display: block;
-                 margin-left: 20px;
-                 margin-top: -20px;
-             }
-       
-        input[type="checkbox"] {
-            font-size: 1.2em;
-        }
-        label[for="patternNumber"] {display:none;}
-	    </style>
-	</head>
-	<body>
-	  
-	  <?php
-	  
-	  
+?><html>
+<head>
+<title>Update a Record in MySQL Database</title>
+</head>
+<body>
+
+<?php
+if(isset($_POST['update']))
+{
+$dbhost = 'localhost';
+$dbuser = 'root';
+$dbpass = 'root';
+$conn = mysql_connect($dbhost, $dbuser, $dbpass);
+if(! $conn )
+{
+  die('Could not connect: ' . mysql_error());
+}
+
+$patternID = $_POST['id'];
+$patternNumber = $_POST['pattern_number'];
+$patternCompany = $_POST['pattern_company'];
+
+$sizesID = implode(',', $_POST['sizes_id']);
+$patternForID = implode(',', $_POST['pattern_for_id']);
+$garmentTypeID = implode(',', $_POST['garment_type_id']);
+$fabricsID = implode(',', $_POST['fabric_id']);
+$necklinesID = implode(',', $_POST['neckline_id']);
+$sleevesID = implode(',', $_POST['sleeve_id']);
+$stylesID = implode(',', $_POST['styles_id']);
 
 
+
+$sql = "UPDATE patterns SET pattern_number = $patternNumber, pattern_company_id = $patternCompany, sizes_id = '$sizesID', pattern_for_id = '$patternForID', garment_type_id = '$garmentTypeID', fabric_id = '$fabricsID', neckline_id = '$necklinesID', sleeve_id = '$sleevesID', styles_id = '$stylesID' WHERE id = $patternID" ;
+echo $sql;
+
+mysql_select_db('patternate-scratch');
+$retval = mysql_query( $sql, $conn );
+if(! $retval )
+{
+  die('Could not update data: ' . mysql_error());
+}
+echo "Updated data successfully\n";
+mysql_close($conn);
+}
+else
+{
+    
+    
+      // Get selected pattern
 	  
-	  
-	  
-	  // Get selected pattern
-	  
-  	$query = "SELECT * FROM patterns where id=5";
+  	$query = "SELECT * FROM patterns where id=1";
     $result= mysql_query($query) or die(mysql_error());
     
     
@@ -71,15 +73,21 @@
     $pattern_for_id_array = explode( ',', $patternForExplode );
     $fabricExplode = $rows[0]['fabric_id'];
     $fabric_id_array = explode( ',', $fabricExplode );
-
+    $necklineExplode = $rows[0]['neckline_id'];
+    $neckline_id_array = explode( ',', $necklineExplode );
+    $sleeveExplode = $rows[0]['sleeve_id'];
+    $sleeve_id_array = explode( ',', $sleeveExplode );
+    $styleExplode = $rows[0]['styles_id'];
+    $style_id_array = explode( ',', $styleExplode );
+    $patternURL = $rows[0]['url'];
+    $mainImage = $rows[0]['main_image'];
+    $lineDrawing = $rows[0]['line_drawing'];
+    $separateCupSizes= $rows[0]['separate_cup_sizes'];
+    	  ?>
 	  
 	  
-	  
-	  ?>
-	  
-	  
-	  <form action="update.php" method="post">
-	    <fieldset>
+	  <form action="<?php $_PHP_SELF ?>" method="post">
+    <fieldset>
 	    <legend>Pattern company and collection</legend>
         <ul class="patternCompanies">
 	    <?php
@@ -102,7 +110,7 @@
        $getPatternCompaniesName = $getPatternCompaniesRows[$i]['name'];
        $getPatternCompaniesSlug = $getPatternCompaniesRows[$i]['slug'];
            
-           echo '<li><input type="radio" name="patternCompany" value="' . $getPatternCompaniesID . '" id="' . $getPatternCompaniesSlug . '"';
+           echo '<li><input type="radio" name="pattern_company" value="' . $getPatternCompaniesID . '" id="' . $getPatternCompaniesSlug . '"';
            if ($getPatternCompaniesID == $patternCompanyID) {
                echo 'checked ';
            } 
@@ -162,7 +170,7 @@
     <fieldset>
         <legend>Pattern number</legend>
       <label for="patternNumber">Pattern number</label>
-      <input type="text" id="patternNumber" value="<?php echo $patternNumber; ?>">
+      <input type="text" id="patternNumber" name="pattern_number" value="<?php echo $patternNumber; ?>">
       </fieldset>
       <fieldset>
       <legend>Sizes</legend>
@@ -189,7 +197,7 @@
              
                        
                        
-                       echo '<input type="checkbox" value="' . $sizesID . '" id="' . $sizesID . '"';
+                       echo '<input type="checkbox" name="sizes_id[]" value="' . $sizesID . '" id="' . $sizesID . '"';
 
                        // Pre-select existing sizes
                        // 1. Get array of sizes from the selected pattern - ($sizesExplode)
@@ -237,7 +245,7 @@
              
                        
                        
-                       echo '<input type="checkbox" value="' . $garmentTypeID . '" id="' . $garmentTypeSlug . '"';
+                       echo '<input type="checkbox" name="garment_type_id[]" value="' . $garmentTypeID . '" id="' . $garmentTypeSlug . '"';
 
                        // Pre-select existing sizes
                        // 1. Get array of sizes from the selected pattern - ($sizesExplode)
@@ -292,7 +300,7 @@
              
                       
                        
-                       echo '<input type="checkbox" value="' . $patternForID . '" id="' . $patternForSlug . '"';
+                       echo '<input type="checkbox" name="pattern_for_id[]" value="' . $patternForID . '" id="' . $patternForSlug . '"';
 
                        // Pre-select existing sizes
                        // 1. Get array of sizes from the selected pattern - ($sizesExplode)
@@ -341,7 +349,7 @@
              
                       
                        
-                       echo '<input type="checkbox" value="' . $fabricID . '" id="' . $fabricSlug . '"';
+                       echo '<input type="checkbox" name="fabric_id[]" value="' . $fabricID . '" id="' . $fabricSlug . '"';
 
                        // Pre-select existing sizes
                        // 1. Get array of sizes from the selected pattern - ($sizesExplode)
@@ -366,11 +374,182 @@
                     }
                     ?>
                     </fieldset>
-        <input type="hidden" name="patternID" value="<?php echo $patternID; ?>">
+      
+      
+      
+      <fieldset>
+        <legend>Neckline</legend>
+        
+       <?php  // Get necklines
+    
+        $getNecklineQuery = "SELECT * FROM neckline order by name ASC";
+                      $getNecklineResult= mysql_query($getNecklineQuery) or die(mysql_error());
+                    
+                       while ($getNecklineRow = mysql_fetch_assoc($getNecklineResult)) { 
+                       $getNecklineRows[] = $getNecklineRow; 
+                     } 
+                   
+                     for($s=0;$s<count($getNecklineRows);$s++) { 
+                     
+                       $necklineID = $getNecklineRows[$s]['id'];
+                       $necklineName = $getNecklineRows[$s]['name'];
+                       $necklineSlug = $getNecklineRows[$s]['slug'];
+             
+                      
+                       
+                       echo '<input type="checkbox" name="neckline_id[]" value="' . $necklineID . '" id="' . $necklineSlug . '"';
+
+                       // Pre-select existing sizes
+                       // 1. Get array of sizes from the selected pattern - ($sizesExplode)
+                       // 2. Cycle through the array and check when printing each size from the available size list
+                       // 3. If the size ID is in the array, then check the check box 
+                        
+                        for ($t=0;$t<count($neckline_id_array);++$t) {
+                            if ($neckline_id_array[$t] == $necklineID) {
+                                echo 'checked ';
+                            } else {
+                                echo 'djsklj ';
+                            } 
+                        }
+                        
+                        echo '>';
+                         echo '<label for="' . $necklineSlug . '">';
+                     
+                       echo $necklineName;
+                       
+                       echo '</label>';
+
+                    }
+                    ?>
+        
+        
+    </fieldset>
+      
+      
+      
+             <fieldset>
+        <legend>Sleeves</legend>
+        
+        <?php  // Get sleeves
+    
+        $getSleeveQuery = "SELECT * FROM sleeve order by name ASC";
+                      $getSleeveResult= mysql_query($getSleeveQuery) or die(mysql_error());
+                    
+                       while ($getSleeveRow = mysql_fetch_assoc($getSleeveResult)) { 
+                       $getSleeveRows[] = $getSleeveRow; 
+                     } 
+                   
+                     for($s=0;$s<count($getSleeveRows);$s++) { 
+                     
+                       $sleeveID = $getSleeveRows[$s]['id'];
+                       $sleeveName = $getSleeveRows[$s]['name'];
+                       $sleeveSlug = $getSleeveRows[$s]['slug'];
+             
+                      
+                       
+                       echo '<input type="checkbox" name="sleeve_id[]" value="' . $sleeveID . '" id="' . $sleeveSlug . '"';
+
+                       // Pre-select existing sizes
+                       // 1. Get array of sizes from the selected pattern - ($sizesExplode)
+                       // 2. Cycle through the array and check when printing each size from the available size list
+                       // 3. If the size ID is in the array, then check the check box 
+                        
+                        for ($t=0;$t<count($sleeve_id_array);++$t) {
+                            if ($sleeve_id_array[$t] == $sleeveID) {
+                                echo 'checked ';
+                            } else {
+                                echo 'djsklj ';
+                            } 
+                        }
+                        
+                        echo '>';
+                         echo '<label for="' . $sleeveSlug . '">';
+                     
+                       echo $sleeveName;
+                       
+                       echo '</label>';
+
+                    }
+                    ?>
+                    
+                    </fieldset>
+                    
+                    <fieldset>
+                    <legend>Styles</legend>
+                           <?php  // Get styles
+    
+        $getStyleQuery = "SELECT * FROM styles order by name ASC";
+                      $getStyleResult= mysql_query($getStyleQuery) or die(mysql_error());
+                    
+                       while ($getStyleRow = mysql_fetch_assoc($getStyleResult)) { 
+                       $getStyleRows[] = $getStyleRow; 
+                     } 
+                   
+                     for($s=0;$s<count($getStyleRows);$s++) { 
+                     
+                       $styleID = $getStyleRows[$s]['id'];
+                       $styleName = $getStyleRows[$s]['name'];
+                       $styleSlug = $getStyleRows[$s]['slug'];
+             
+                      
+                       
+                       echo '<input type="checkbox" name="styles_id[]" value="' . $styleID . '" id="' . $styleSlug . '"';
+
+                       // Pre-select existing sizes
+                       // 1. Get array of sizes from the selected pattern - ($sizesExplode)
+                       // 2. Cycle through the array and check when printing each size from the available size list
+                       // 3. If the size ID is in the array, then check the check box 
+                        
+                        for ($t=0;$t<count($style_id_array);++$t) {
+                            if ($style_id_array[$t] == $styleID) {
+                                echo 'checked ';
+                            } else {
+                                echo 'djsklj ';
+                            } 
+                        }
+                        
+                        echo '>';
+                         echo '<label for="' . $styleSlug . '">';
+                     
+                       echo $styleName;
+                       
+                       echo '</label>';
+
+                    }
+                    ?>
+                    </fieldset>
+                    
+                    <fieldset>
+                    <legend>Pattern images</legend>
+                    
+                   <label for="patternURL">Pattern URL</label>
+      <input type="text" id="patternURL" name="pattern_url" value="<?php echo $patternURL; ?>">
+      <label for="mainImage">Main image</label>
+      <input type="text" id="mainImage" name="main_image" value="<?php echo $mainImage; ?>">
+      <label for="lineDrawing">Line drawing</label>
+      <input type="text" id="lineDrawing" name="line_drawing" value="<?php echo $lineDrawing; ?>">
+      </fieldset>
+      
+      <fieldset>
+                    <legend>Separate cup sizes</legend>
+                    
+                   
+      <input type="checkbox" id="separateCupSizes" name="separate_cup_sizes" <?php  if ($separateCupSizes == 1) {
+                                echo 'checked ';
+                            } else {
+                                echo 'djsklj ';
+                            } ?> >
+                            <label for="separateCupSizes">Separate cup sizes</label>
+     
+      </fieldset>
+      
+      <input type="hidden" name="id" id="id" value="<?php echo $patternID; ?>">
       <input type="submit" id="update" name="update" value="Update">
     </form>
  
 
-	  
-	</body>
+<?php
+}
+?>
+</body>
 </html>
