@@ -3,7 +3,7 @@
       //Get sizes
       
         // 1. get array data stored in sizes_id of the pattern = [1,2,3]
-       $sizesExplode = $rows[$i]['sizes_id'];
+       $sizesExplode = $rows[$i]['size_id'];
         $sizes_id_array = explode( ',', $sizesExplode );
 //        print_r($sizes_id_array);
         
@@ -12,7 +12,7 @@
     
         // 3. Get 'name' of where id = pattern_for_id
       
-          $sizesQuery = "SELECT * from sizes WHERE id = $sizes_id_array[$k]";
+          $sizesQuery = "SELECT * from size WHERE id = $sizes_id_array[$k]";
           $sizesData= mysql_query($sizesQuery) or die(mysql_error());
  
          while($sizesRow = mysql_fetch_array( $sizesData)) {

@@ -12,7 +12,7 @@
     
         // 3. Get 'name' of where id = pattern_for_id
       
-          $fabricQuery = "SELECT * from fabrics WHERE id = $fabric_id_array[$l]";
+          $fabricQuery = "SELECT * from fabric WHERE id = $fabric_id_array[$l]";
           $fabricData= mysql_query($fabricQuery) or die(mysql_error());
  
          while($fabricRow = mysql_fetch_array( $fabricData)) {

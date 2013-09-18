@@ -39,7 +39,7 @@
 
       
         // Get pattern company name
-        include 'includes/get-pattern-company.inc';  
+        //include 'includes/get-pattern-company.inc';  
       
         // Get pattern number
         $patternNumber = $rows[$i]['pattern_number'];
