@@ -9,6 +9,7 @@
         <title>Edit pattern</title>
     </head>
     <body>
+    <p><a href="list.php">All patterns</a></p>
 
 <?php
 
@@ -28,11 +29,16 @@
         $patternID = $rows[0]['id'];
         $patternNumber = $rows[0]['pattern_number'];
         $patternCompanyID = $rows[0]['pattern_company_id'];
+        $patternCollection = $rows[0]['pattern_collection_id'];
     
         $patternURL = $rows[0]['url'];
         $mainImage = $rows[0]['main_image'];
         $lineDrawing = $rows[0]['line_drawing'];
         $separateCupSizes= $rows[0]['separate_cup_sizes'];
+        $releaseDate= $rows[0]['release_date'];
+        $url = $rows[0]['url'];
+        $mainImage = $rows[0]['main_image'];
+        $lineDrawing = $rows[0]['line_drawing'];
 } 
 ?>
 	  
@@ -77,7 +83,8 @@
         $getPatternCompaniesID = $getPatternCompaniesRows[$i]['id'];
         $getPatternCompaniesName = $getPatternCompaniesRows[$i]['name'];
         $getPatternCompaniesSlug = $getPatternCompaniesRows[$i]['slug'];
-           
+        
+        // print name of parent pattern company  
         echo '<li><input type="radio" name="pattern_company" value="' . $getPatternCompaniesID . '" id="' . $getPatternCompaniesSlug . '"';
            
         if ($getPatternCompaniesID == $patternCompanyID) {
@@ -88,11 +95,13 @@
         echo '<label for="' . $getPatternCompaniesSlug . '">';
         echo $getPatternCompaniesName;
         echo '</label>';
-           
+        
+        // find any child collections   
         $getPatternCompaniesCollectionQuery = "SELECT * FROM collection WHERE pattern_company_id = $getPatternCompaniesID";
-        $getPatternCompaniesCollectionResult= mysql_query($getPatternCompaniesCollectionQuery) or die(mysql_error());
-           
-           
+        $getPatternCompaniesCollectionResult = mysql_query($getPatternCompaniesCollectionQuery) or die(mysql_error());
+        
+        if ($getPatternCompaniesCollectionResult !== NULL) { 
+           echo '<ul>';
          while ($getPatternCompaniesCollectionRow = mysql_fetch_assoc($getPatternCompaniesCollectionResult)) { 
                $getPatternCompaniesCollectionRows[] = $getPatternCompaniesCollectionRow; 
            } 
@@ -107,7 +116,11 @@
               
                if ($getPatternCompaniesCollectionParentID == $getPatternCompaniesID) {
                
-               echo '<li class="collection"><input type="radio" name="' . $getPatternCompaniesSlug . '" value="' . $getPatternCompaniesCollectionID . '" id="' . $getPatternCompaniesCollectionSlug . '"';
+               echo '<li class="collection"><input type="checkbox" name="pattern_collection" value="' . $getPatternCompaniesCollectionID . '" id="' . $getPatternCompaniesCollectionSlug . '"';
+               // Add check for existing collection 
+               if ($getPatternCompaniesCollectionID == $patternCollection) {
+            echo 'checked ';
+        } 
                echo '>';
                echo '<label for="' . $getPatternCompaniesCollectionSlug . '">';
                echo $getPatternCompaniesCollectionName;
@@ -125,6 +138,8 @@
            
            
            }
+           echo '</ul>';
+          }
           
           
        
@@ -177,8 +192,8 @@ for ($e=0;$e<count($elements);++$e) {
                     <fieldset>
                     <legend>Pattern images</legend>
                     
-                   <label for="patternURL">Pattern URL</label>
-      <input type="text" id="patternURL" name="pattern_url" value="<?php echo $patternURL; ?>">
+                   <label for="url">Pattern URL</label>
+      <input type="text" id="url" name="url" value="<?php echo $url; ?>">
       <label for="mainImage">Main image</label>
       <input type="text" id="mainImage" name="main_image" value="<?php echo $mainImage; ?>">
       <label for="lineDrawing">Line drawing</label>
@@ -189,14 +204,19 @@ for ($e=0;$e<count($elements);++$e) {
                     <legend>Separate cup sizes</legend>
                     
                    
-      <input type="checkbox" id="separateCupSizes" name="separate_cup_sizes" <?php  if ($separateCupSizes == 1) {
+      <input type="checkbox" id="separateCupSizes" name="separate_cup_sizes" <?php  if ($separateCupSizes == on) {
                                 echo 'checked ';
-                            } else {
-                                echo 'djsklj ';
-                            } ?> >
+                            }  ?> >
                             <label for="separateCupSizes">Separate cup sizes</label>
      
       </fieldset>
+      
+      <fieldset>
+          <legend>Release date</legend>
+          <label for="releaseDate">Release date</label>
+          <input type="date" name="release_date" id="releaseDate" value="<?php if(isset($_GET['pattern'])) {echo $releaseDate;}?>">
+    </fieldset>
+          
       
       
       
