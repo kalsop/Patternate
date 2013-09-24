@@ -161,7 +161,7 @@ if(! $retval )
         
         echo "<td>";
         if ($mainImage !== '') {
-            echo "<img style='height: 100px; width: 100px;' src='" . $mainImage . "'>"; 
+            echo "<img src='" . $mainImage . "'>"; 
         } 
         echo "</td><td>";        
         

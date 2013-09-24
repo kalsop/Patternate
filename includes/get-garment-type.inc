@@ -3,8 +3,8 @@
 
       
         // 1. get array data stored in sizes_id of the pattern = [1,2,3]
-       $garmentTypeExplode = $rows[$i]['garment_type_id'];
-        $garmentType_id_array = explode( ',', $garmentTypeExplode );
+      // $garmentTypeExplode = $garment;
+        $garmentType_id_array = explode( ',', $garment_type_id );
 //        print_r($sizes_id_array);
         
                // 2. Loop through array to get each pattern_for id
