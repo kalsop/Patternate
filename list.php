@@ -11,7 +11,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html>
 	<head>
-	<link rel="stylesheet" type="text/css" media="all" href="css/styles.css">
+	<link rel="stylesheet" type="text/css" media="all" href="css/list.css">
 	</head>
 	<body>
 	  

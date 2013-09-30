@@ -28,7 +28,7 @@
         // Set selected pattern variables for later use
         $patternID = $rows[0]['id'];
         $patternNumber = $rows[0]['pattern_number'];
-        $patternCompanyID = $rows[0]['pattern_company_id'];
+        $pattern_company_id = $rows[0]['pattern_company_id'];
         $patternCollection = $rows[0]['pattern_collection_id'];
     
         $patternURL = $rows[0]['url'];
