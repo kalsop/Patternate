@@ -62,7 +62,7 @@ function filterPatterns(e) {
 
 
      
-$filterElements = array('fabric', 'garment_type', 'pattern_for', 'style', 'sleeve', 'neckline', 'pattern_company', 'collection');
+$filterElements = array('pattern_company', 'collection');
 
 
 for ($f=0;$f<count($filterElements);++$f) {
@@ -113,7 +113,7 @@ for ($f=0;$f<count($filterElements);++$f) {
         
         <?php 
 
-          $query = "SELECT * FROM patterns ORDER BY id ASC";
+          $query = "SELECT * FROM patterns ORDER BY id ASC LIMIT 30";
           $result= mysql_query($query) or die(mysql_error());  
 
           while ($row = mysql_fetch_assoc($result)) { 
@@ -126,18 +126,8 @@ for ($f=0;$f<count($filterElements);++$f) {
             
             // Establish variables
             $id = $rows[$i]['id'];
-            $garment_type_id = $rows[$i]['garment_type_id'];
-            $garment_type_id_array = explode( ',', $garment_type_id );
-            $style_id = $rows[$i]['style_id'];
-            $style_id_array = explode( ',', $style_id );
-            $sleeve_id = $rows[$i]['sleeve_id'];
-            $sleeve_id_array = explode( ',', $sleeve_id );
-            $neckline_id = $rows[$i]['neckline_id'];
-            $neckline_id_array = explode( ',', $neckline_id );
-            $size_id = $rows[$i]['size_id'];
-            $size_id_array = explode( ',', $size_id );
-            $fabric_id = $rows[$i]['fabric_id'];
-            $fabric_id_array = explode( ',', $fabric_id );
+            //$garment_type_id = $rows[$i]['garment_type_id'];
+            //$garment_type_id_array = explode( ',', $garment_type_id );
             $pattern_company_id = $rows[$i]['pattern_company_id'];
             $patternCompany = getPatternCompanyNameById($pattern_company_id);
             
@@ -148,8 +138,8 @@ for ($f=0;$f<count($filterElements);++$f) {
             }
             
             $patternNumber = $rows[$i]['pattern_number'];
-            $patternName = $rows[$i]['pattern_name'];
             $mainImage = $rows[$i]['main_image'];
+            $lineDrawing = $rows[$i]['line_drawing'];
 
 
         ?>
@@ -159,21 +149,7 @@ for ($f=0;$f<count($filterElements);++$f) {
 
 
 
-$patternElements = array(
-    array('neckline', $neckline_id_array),
-    array('style', $style_id_array), 
-    array('size', $size_id_array),
-   array('sleeve', $sleeve_id_array),
-   array('garment_type', $garment_type_id_array),
-    array('fabric', $fabric_id_array)
-      
-);
-      
-//  For every row in the array of elements ($patternElements) ...
-    
-    for ($e=0;$e<count($patternElements);++$e) {
-        getPatternElementClasses($patternElements[$e]) ;                     
-      }
+
       
   echo getPatternCompanySlugById($pattern_company_id);
   echo ' ';
@@ -206,11 +182,7 @@ echo $patternName;
                             
                             ?></a> 
                 </h2>
-                <?php 
-                    echo '<span class="garment">';
-                    include 'includes/get-garment-type.inc';
-                    echo '</span>';
-                    ?>
+                
             </div>
         </div><!-- pattern -->
         <?php } ?>

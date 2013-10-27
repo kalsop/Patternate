@@ -1,11 +1,8 @@
 <?php
         // Get garment type
 
-      
-        // 1. get array data stored in sizes_id of the pattern = [1,2,3]
-      // $garmentTypeExplode = $garment;
-        $garmentType_id_array = explode( ',', $garment_type_id );
-//        print_r($sizes_id_array);
+        
+ 
         
                // 2. Loop through array to get each pattern_for id
        for ($m = 0; $m < count($garmentType_id_array); ++$m) {
@@ -23,4 +20,9 @@
        }
        
 ?>
+
+
+go to pattern_garment_type
+get all garment_type_ids where patern_id = id
+for each 
 

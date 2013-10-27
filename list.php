@@ -53,7 +53,7 @@ $mainImage = $_POST['main_image'];
 $lineDrawing = $_POST['line_drawing'];
 
 
-$sql = "UPDATE patterns SET pattern_number = '$patternNumber', pattern_company_id = '$patternCompany', pattern_collection_id = '$patternCollection', size_id = '$sizesID', pattern_for_id = '$patternForID', garment_type_id = '$garmentTypeID', fabric_id = '$fabricsID', neckline_id = '$necklinesID', sleeve_id = '$sleevesID', style_id = '$stylesID', separate_cup_sizes = '$separateCupSizes', release_date = '$releaseDate', url = '$url', main_image = '$mainImage', line_drawing = '$lineDrawing' WHERE id = $patternID" ;
+$sql = "UPDATE patterns SET pattern_number = '$patternNumber', pattern_company_id = '$patternCompany', pattern_collection_id = '$patternCollection', url = '$url', main_image = '$mainImage', line_drawing = '$lineDrawing' WHERE id = $patternID" ;
 
 
 mysql_select_db('patternate-scratch');
