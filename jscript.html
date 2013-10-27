@@ -1,0 +1,32 @@
+<html>
+  <head>
+    <script src="js/jquery-1.7.2.min.js"></script>
+    <script> 
+      function getInput() {
+        $(this).val() // get the current value of the input field.
+      }
+
+      $('.values').on('change',getInput);
+
+      $("#myResults").html("Hello World!");
+      
+      function myAlert() {
+        alert("Hello World!");
+      }
+      
+    </script>
+  
+  </head>
+  
+  <body> 
+    <form>
+      <input class="values" type="textbox">
+      <input type="submit">
+    </form>
+      
+    <h1>The below text should populate dynamically...</h1>
+    <p id="myResults"></p>
+    <a href="#" onclick="myAlert()">Alert!</a>
+      
+  </body>
+</html>

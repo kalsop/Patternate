@@ -1,0 +1,102 @@
+<html>
+<head>
+  <script src="js/jquery-1.7.2.min.js"></script>
+<script>
+
+function myOtherOtherFunction()
+{
+  var keys = this.value.split(',');
+  var patterns = $('.pattern');
+  for (var i=0; i<patterns.length; i++) {
+    var show = true;
+    for (var j=0; j<keys.length; j++) {
+          if (!$(patterns[i]).hasClass(keys[j])) {
+             show = false;
+          }
+    }
+    $(patterns[i]).toggle(show);
+  }
+
+
+//$(this).val() // get the current value of the input field.
+
+}
+$().ready(function () {
+  $('.values').on('change',myOtherOtherFunction);
+});
+
+
+
+<!-- take the value of the input.as-values and show only that class -->
+		        <!--1. input will be in form of value1,value2 -->
+		        <!--2. strip following ',' from value and transfrom into array of individual values -->
+		        <!--3. show only patterns that have value 1 AND value 2 -->
+		        <!-- bind an event - every time it changes, call a function -->
+		        
+		        
+		        
+		        
+</script>
+</head>
+
+<body>
+
+
+
+<input type="textbox" class="values">
+<input type="submit">
+
+
+<div class="pattern boat-neck princess-seams 14 cap-sleeves skirt wool simplicity 0987 ">
+        
+        
+        
+        
+        
+        
+            <a href="view-single.php?id=2"><img src="" class="envelopeFront" alt=""></a>
+            <div class="meta">
+                <h2>
+                    <!--<form method="post" action="view-single.php"><input type="hidden" id="id" name="id" value="2"><input type="submit"></form>--><a href="view-single.php?id=2">Simplicity 0987<span class="designer">(Cynthia Rowley)</span> </a> 
+                </h2>
+                <span class="garment">Skirt 
+</span>            </div>
+        </div>
+        
+        
+        <div class="pattern round waistband 12 sleeveless skirt wool simplicity 877876826867482349 ">
+        
+        
+        
+        
+        
+        
+            <a href="view-single.php?id=3"><img src="" class="envelopeFront" alt=""></a>
+            <div class="meta">
+                <h2>
+                    <!--<form method="post" action="view-single.php"><input type="hidden" id="id" name="id" value="3"><input type="submit"></form>--><a href="view-single.php?id=3">Simplicity 877876826867482349</a> 
+                </h2>
+                <span class="garment">Skirt 
+</span>            </div>
+        </div>
+        
+        
+        <div class="pattern boat-neck princess-seams 0 cap-sleeves cap-sleeves long-sleeves dress cotton cotton wool vogue-patterns 1288 ">
+        
+        
+        
+        
+        
+        
+            <a href="view-single.php?id=8"><img src="images/vogue-1288.jpg" class="envelopeFront" alt=""></a>
+            <div class="meta">
+                <h2>
+                    <!--<form method="post" action="view-single.php"><input type="hidden" id="id" name="id" value="8"><input type="submit"></form>--><a href="view-single.php?id=8">Vogue Patterns 1288</a> 
+                </h2>
+                <span class="garment">Dress 
+</span>            </div>
+        </div>
+
+
+</body>
+</html>

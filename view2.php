@@ -11,30 +11,18 @@
     <head>
         <link rel="stylesheet" type="text/css" media="all" href="css/view.css">
         <title>Patternate</title>
-        <script src="js/jquery-1.7.2.min.js"></script>
-      <!--  <script src="js/autoSuggestv14/jquery.autoSuggest-original.js"></script>
-        <link rel="stylesheet" type="text/css" media="all" href="js/autoSuggestv14/autoSuggest.css" /> -->
-        <style type="text/css">
-
-        </style>
-        
-        
-        
-        
-        
-    </head>
-    <body>
-    
-    
-        <script type="text/javascript">
-		    $(document).ready(function() {
+           <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
+  <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+  <link href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" rel="stylesheet">
+       <script> 
+          $(document).ready(function() {
 		        
 function filterPatterns(e) {
     if(e) {
         e.preventDefault();
     }
     
-  var keys = $('.as-values').val().split(',');
+  var keys = $('#tags').val().split(',');
   var patterns = $('.pattern');
   for (var i=0; i<patterns.length; i++) {
     var show = true;
@@ -49,20 +37,15 @@ function filterPatterns(e) {
   }
 }
   
-    $('.as-values').on('change',filterPatterns);
+    $('#tags').on('change',filterPatterns);
 		        
-	$('input[type=submit]').click(filterPatterns);	        
-		        
-		        
-		        
-		        
-		        
-			    var data = {items: [
-<?php
-
-
-     
-$filterElements = array('fabric', 'garment_type', 'pattern_for', 'style', 'sleeve', 'neckline', 'pattern_company', 'collection');
+	$('input[type=submit]').click(filterPatterns);	
+        
+        
+        
+        $(function() {
+    var availableTags = [
+      <?php $filterElements = array('fabric', 'garment_type', 'pattern_for', 'style', 'sleeve', 'neckline', 'pattern_company', 'collection');
 
 
 for ($f=0;$f<count($filterElements);++$f) {
@@ -78,7 +61,7 @@ for ($f=0;$f<count($filterElements);++$f) {
          
         $slug = $getFilterElementRows[$e]['slug'];
         $name = $getFilterElementRows[$e]['name'];
-        echo '{element:"' . $filterElements[$f] . '", value:"' . $slug . '", name: "' . $name . '"}, ';
+        echo '"' . $slug . '", ';
 
 
     }
@@ -86,16 +69,29 @@ for ($f=0;$f<count($filterElements);++$f) {
     $getFilterElementRows = array();
 }
 
-?>
-    		        
-		        ]};
-		        $("input[type=text]").autoSuggest(data.items, {selectedItemProp: "name", searchObjProps: "name"});
+?> "xxx" ];
+    $( "#tags" ).autocomplete({
+      source: availableTags
+    });
+  });
+  });
+  
+  
+  </script>
+      
+        <style type="text/css">
 
- 
-		        });
-	        
-		        
-		        </script>
+        </style>
+        
+        
+        
+        
+        
+    </head>
+    <body>
+    
+    
+       
 				
 
         
@@ -105,7 +101,7 @@ for ($f=0;$f<count($filterElements);++$f) {
         
         <form>
 					<label for="searchTerms">What's your style?</label>
-					<input type="text" id="searchTerms" />
+					<input type="text" id="tags" />
 					<input type="submit"  />
 				</form>
 
